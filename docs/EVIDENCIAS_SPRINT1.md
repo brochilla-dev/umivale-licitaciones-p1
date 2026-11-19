@@ -2,7 +2,7 @@
 
 **Asignatura:** Proyecto de Informática I (UEV · Curso 2026/2027)  
 **Cliente:** UMivale Activa · **Reto 3:** Búsqueda de Licitaciones Similares  
-**Equipo 4:** Ignacio, Natanael, Nicolás, Kike y Pouria  
+**Equipo 4:** Ignacio, Natanael, Nicolás, Kike, Pouria y Youssef  
 **Fecha de cierre de Sprint 1:** 19 de noviembre de 2026  
 
 ---
@@ -28,7 +28,7 @@
 | T5 · Implementación | Implementar modelo de dominio OOP (`Licitacion` y `ResultadoBusqueda`) con lotes y tratamiento de `"Dato no disponible"` | Nacho, Natanael | **Done** | Commits `5a68d97`, `9a31917` y `b2f70b3` |
 | T6 · Implementación | Implementar motor de cálculo de similitud (`SimilitudService`) con pesos orientativos configurables, sinónimos TI, filtro por tipo/año y explicación en lenguaje claro | Natanael | **Done** | Commit `b2f70b3`; validado por `SimilitudServiceTest` (6/6 OK) |
 | T7 · Implementación | Implementar interfaz de escritorio JavaFX (`MainApp`) con barra de búsqueda, tabla de ranking y panel de justificación/ficha | Nacho, Natanael | **Done** | Commits `9a31917`, `43d2f3b` y `b2f70b3` |
-| T8 · Pruebas | Crear y ampliar tests unitarios JUnit 5 (`CsvLicitacionLoaderTest` y `SimilitudServiceTest`, incluyendo límite temporal 2024) | Natanael, Youssef lyoussi | **Done** | Commits `b2f70b3` y `4503d45`; `mvn test` → 8/8 tests pasando |
+| T8 · Pruebas | Crear y ampliar tests unitarios JUnit 5 (`CsvLicitacionLoaderTest` y `SimilitudServiceTest`, incluyendo límite temporal 2024) | Natanael, Youssef | **Done** | Commits `b2f70b3` y `4503d45`; `mvn test` → 8/8 tests pasando |
 | T9 · Prueba / Demo | Verificar ejecución en vivo de la UI JavaFX (`mvn javafx:run`) y comprobar los 3 casos de demo | Kike / Todo el equipo | **En progreso** | Pendiente de validar en el portátil de presentación antes de la Review |
 | T10 · Evidencia / Doc | Cerrar evidencias de Sprint 1 (backlog, pruebas, IA, guía de defensa) y actualizar `Ficha_G1` / `Ficha_G2` | Pouria / Kike / Todo el equipo | **En progreso** | Documentos en `docs/`; pendiente de revisión final del equipo y commit desde cuenta de Kike/Pouria |
 | T11 · Evolución (P2/S2) | Ingesta real XML de la Plataforma de Contratación y comparativa lado a lado de licitaciones | — | **No iniciado (Sprint 2)** | Queda fuera del alcance comprometido en Sprint 1 |
@@ -57,8 +57,8 @@
 - `Nacho` (5 commits) + `brochilla` (1 commit) → Nacho
 - `Nata` (2 commits) → Natanael
 - `Nicolás Salazar` (1 commit) → Nicolás
-- `Youssef lyoussi` (1 commit) → *(Confirmar en el equipo a qué miembro/cuenta corresponde; p. ej. Pouria o Kike)*
-- **Aviso importante para cerrar Sprint 1:** Antes de la Review, **Kike y Pouria** deben confirmar su identidad en Git y subir al menos un commit con la revisión final de estas evidencias, actualización de documentación o pruebas de la demo para que conste la participación individual de los 5 integrantes.
+- `Youssef lyoussi` (1 commit) → Youssef
+- **Aviso importante para cerrar Sprint 1:** Antes de la Review, **Kike y Pouria** deben subir al menos un commit con la revisión final de estas evidencias, actualización de documentación o pruebas de la demo para que conste la participación individual de los 6 integrantes.
 
 ---
 
@@ -139,7 +139,7 @@
 | **2. Cumple:** Criterios de aceptación comprobados con casos concretos | ✅ | 8 pruebas JUnit automatizadas + 3 casos de demo definidos |
 | **3. Se entiende:** Código OOP separado (`model`/`service`/`ui`) y explicable sin IA por el equipo | ⏳ | Repasar juntos [Guía de defensa sin IA](GUIA_DEFENSA_CODIGO_SIN_IA.md) durante 10 min |
 | Repositorio común integrado y compilando en `main` | ✅ | Todo en `origin/main` hasta commit `4503d45` |
-| Evidencia individual de los 5 miembros | ⏳ | Faltan commits identificables de Kike y Pouria (y confirmar autoría de `Youssef lyoussi`) |
+| Evidencia individual de los 6 miembros | ⏳ | Ya constan Nacho, Natanael, Nicolás y Youssef; faltan commits identificables de Kike y Pouria |
 | 2–4 usos significativos de IA trazados y cambios manuales justificados | ✅ | Documentado en la sección 6 (revisar prompts exactos) |
 
 ---
@@ -157,7 +157,7 @@
 - **Qué falló / aprendimos:** Se subieron archivos vacíos (`0 bytes`), `pom.xml` con líneas rotas y desajustes de nombres/columnas entre compañeros porque no se probaba `mvn test` antes de hacer `push`.
 - **Qué cambiaremos en Sprint 2:**
   1. Nadie hace `push` a `main` sin ejecutar `mvn test` y revisar `git diff` antes del commit.
-  2. Acordar primero los atributos/métodos de las clases y trabajar en ramas pequeñas o tareas bien delimitadas desde el primer día para que los 5 miembros tengan commits continuos.
+  2. Acordar primero los atributos/métodos de las clases y trabajar en ramas pequeñas o tareas bien delimitadas desde el primer día para que los 6 miembros tengan commits continuos.
 
 ### Propuesta para Sprint Planning 2 (3:10–4:00)
 - **Foco candidato Sprint 2:**

@@ -1,6 +1,6 @@
 # UMivale · Buscador de Licitaciones Comparables (`umivale-licitaciones-p1`)
 
-Aplicación de escritorio OOP en **Java + JavaFX** desarrollada por el **Equipo 4** (Ignacio, Natanael, Nicolás, Kike y Pouria) para el **Reto 3 de UMivale Activa** en la asignatura *Proyecto de Informática I* (Universidad Europea de Valencia, 2026/2027).
+Aplicación de escritorio OOP en **Java + JavaFX** desarrollada por el **Equipo 4** (Ignacio, Natanael, Nicolás, Kike, Pouria y Youssef) para el **Reto 3 de UMivale Activa** en la asignatura *Proyecto de Informática I* (Universidad Europea de Valencia, 2026/2027).
 
 ## Qué resuelve (Incremento de Sprint 1)
 
