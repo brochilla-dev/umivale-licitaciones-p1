@@ -9,6 +9,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Carga licitaciones de muestra desde un archivo CSV incluido en resources.
+ * Soporta tanto el formato completo de 10 columnas como el formato simplificado de 6 columnas.
+ */
 public class CsvLicitacionLoader {
 
     public List<Licitacion> cargarDesdeRecurso(String rutaRecurso) {
@@ -34,17 +38,37 @@ public class CsvLicitacionLoader {
 
                 String[] columnas = linea.split(";", -1);
 
-                String expediente = limpiarDato(columnas, 0);
-                String titulo = limpiarDato(columnas, 1);
-                String tipoContrato = limpiarDato(columnas, 2);
-                String organismo = limpiarDato(columnas, 3);
-                String presupuesto = limpiarDato(columnas, 4);
-                String fechaLimite = limpiarDato(columnas, 5);
+                if (columnas.length >= 10) {
+                    String expediente = limpiarDato(columnas, 0);
+                    String objeto = limpiarDato(columnas, 1);
+                    String lote = limpiarDato(columnas, 2);
+                    String tipoContrato = limpiarDato(columnas, 3);
+                    String cpv = limpiarDato(columnas, 4);
+                    String organismo = limpiarDato(columnas, 5);
+                    String tipoOrganismo = limpiarDato(columnas, 6);
+                    Double importe = Licitacion.parsearDouble(obtenerCrudo(columnas, 7));
+                    Integer duracionMeses = Licitacion.parsearEntero(obtenerCrudo(columnas, 8));
+                    String fechaPublicacion = limpiarDato(columnas, 9);
 
-                licitaciones.add(new Licitacion(
-                        expediente, titulo, tipoContrato, organismo, presupuesto, fechaLimite
-                ));
+                    licitaciones.add(new Licitacion(
+                            expediente, objeto, lote, tipoContrato, cpv,
+                            organismo, tipoOrganismo, importe, duracionMeses, fechaPublicacion
+                    ));
+                } else {
+                    String expediente = limpiarDato(columnas, 0);
+                    String titulo = limpiarDato(columnas, 1);
+                    String tipoContrato = limpiarDato(columnas, 2);
+                    String organismo = limpiarDato(columnas, 3);
+                    String presupuesto = limpiarDato(columnas, 4);
+                    String fechaLimite = limpiarDato(columnas, 5);
+
+                    licitaciones.add(new Licitacion(
+                            expediente, titulo, tipoContrato, organismo, presupuesto, fechaLimite
+                    ));
+                }
             }
+        } catch (IllegalArgumentException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException("Error al leer el CSV de licitaciones: " + e.getMessage(), e);
         }
@@ -52,10 +76,18 @@ public class CsvLicitacionLoader {
         return licitaciones;
     }
 
-    private String limpiarDato(String[] columnas, int indice) {
-        if (indice >= columnas.length || columnas[indice] == null || columnas[indice].trim().isEmpty()) {
-            return "No disponible";
+    private String obtenerCrudo(String[] columnas, int indice) {
+        if (indice >= columnas.length || columnas[indice] == null) {
+            return "";
         }
         return columnas[indice].trim();
+    }
+
+    private String limpiarDato(String[] columnas, int indice) {
+        String valor = obtenerCrudo(columnas, indice);
+        if (valor.isEmpty()) {
+            return Licitacion.DATO_NO_DISPONIBLE;
+        }
+        return valor;
     }
 }

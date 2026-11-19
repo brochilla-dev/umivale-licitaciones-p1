@@ -1,6 +1,17 @@
-expediente;titulo;tipoContrato;organismo;presupuesto;fechaLimite
-EXP-2026-001;Servicio de limpieza de centros asistenciales en Valencia;Servicios;Umivale Activa;45000.00;2026-12-15
-EXP-2026-002;Suministro de material sanitario y botiquines;Suministros;Umivale Activa;18500.50;2026-12-10
-EXP-2026-003;Mantenimiento de equipos informaticos y redes;Servicios;;32000.00;2026-12-20
-EXP-2026-004;Obras de adecuacion de clinica rehabilitacion;Obras;Umivale Activa;;2027-01-15
-EXP-2026-005;Servicio de vigilancia y seguridad en sedes;Servicios;Umivale Activa;60000.00;
+expediente;objeto;lote;tipoContrato;cpv;organismo;tipoOrganismo;importe;duracionMeses;fechaPublicacion
+EXP-2026-001;Servicio de soporte microinformatico y atencion a usuarios en puestos de trabajo;Lote 1;Servicios;72611000;Umivale Activa;Mutua;145000.00;24;2026-02-15
+EXP-2026-001;Administracion de sistemas y soporte tecnico de segundo nivel en centros asistenciales;Lote 2;Servicios;72253200;Umivale Activa;Mutua;98000.00;24;2026-02-15
+EXP-2026-002;Atencion a usuarios CAU y resolucion de incidencias de puesto de trabajo;Único;Servicios;72611000;Servicio Valenciano de Salud;Sanitario;210000.00;36;2025-11-10
+EXP-2026-003;Mantenimiento de equipos informaticos redes y soporte tecnico presencial;Único;Servicios;72500000;;Sanitario;85000.00;;2026-01-20
+EXP-2026-004;Desarrollo y mantenimiento evolutivo de aplicaciones web corporativas en Java;Único;Servicios;72200000;Instituto Nacional de la Seguridad Social;Seguridad Social;320000.00;24;2025-09-05
+EXP-2026-005;Desarrollo de software a medida y mantenimiento de portales para empresas asociadas;Lote 1;Servicios;72212000;Mutua Universal;Mutua;180000.00;18;2025-06-12
+EXP-2026-005;Oficina tecnica de calidad pruebas de software y aseguramiento funcional;Lote 2;Servicios;72254000;Mutua Universal;Mutua;75000.00;18;2025-06-12
+EXP-2026-006;Consultoria tecnologica para cumplimiento normativo del Reglamento europeo de Inteligencia Artificial;Único;Servicios;72220000;Conselleria de Sanidad;Sanitario;65000.00;12;2026-03-01
+EXP-2026-007;Asesoramiento en gobernanza de datos y auditoria de ciberseguridad ENS;Único;Servicios;72800000;Tesoreria General de la Seguridad Social;Seguridad Social;115000.00;12;2025-04-18
+EXP-2026-008;Servicios de alojamiento en la nube infraestructura cloud y respaldo de datos;Único;Servicios;72415000;Servicio Madrileno de Salud;Sanitario;260000.00;36;2024-10-22
+EXP-2026-009;Soporte tecnico a puestos de trabajo y gestion de parque informatico municipal;Único;Servicios;72611000;Ayuntamiento de Alcira;Administracion General;;12;2025-02-14
+EXP-2026-010;Servicio de limpieza integral de centros asistenciales;Único;Servicios;90910000;Umivale Activa;Mutua;45000.00;12;2025-05-15
+EXP-2026-011;Suministro de ordenadores portatiles y monitores para puestos de trabajo;Único;Suministros;30213100;Umivale Activa;Mutua;190000.00;6;2026-01-10
+EXP-2026-012;Suministro de material sanitario y botiquines para clinicas;Único;Suministros;33140000;Umivale Activa;Mutua;18500.50;12;2025-12-10
+EXP-2026-013;Obras de adecuacion de clinica de rehabilitacion y sala de servidores;Único;Obras;45215100;Umivale Activa;Mutua;;10;2026-01-15
+EXP-2022-099;Soporte microinformatico historico antiguo fuera de horizonte 2024;Único;Servicios;72611000;Mutua Ibermutua;Mutua;110000.00;24;2022-03-10

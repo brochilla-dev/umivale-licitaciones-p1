@@ -1,4 +1,5 @@
 package com.umivale.licitaciones.ui;
+
 import com.umivale.licitaciones.model.Licitacion;
 import com.umivale.licitaciones.model.ResultadoBusqueda;
 import com.umivale.licitaciones.service.CsvLicitacionLoader;
@@ -26,6 +27,7 @@ public class MainApp extends Application {
     private List<Licitacion> baseLicitaciones;
     private final SimilitudService similitudService = new SimilitudService();
     private TableView<ResultadoBusqueda> tablaResultados;
+    private TextArea txtDetalle;
     private Label lblEstado;
 
     @Override
@@ -58,9 +60,28 @@ public class MainApp extends Application {
         // Tabla central de resultados
         tablaResultados = construirTabla();
 
+        // Panel de justificación clara de la licitación seleccionada
+        Label lblDetalleTitulo = new Label("Justificación de similitud y ficha resumida:");
+        lblDetalleTitulo.setStyle("-fx-font-weight: bold;");
+
+        txtDetalle = new TextArea("Selecciona una licitación en la tabla para ver por qué se considera comparable.");
+        txtDetalle.setEditable(false);
+        txtDetalle.setWrapText(true);
+        txtDetalle.setPrefRowCount(4);
+
+        tablaResultados.getSelectionModel().selectedItemProperty().addListener((obs, anterior, seleccionado) -> {
+            mostrarDetalle(seleccionado);
+        });
+
         // Barra inferior de estado
-        lblEstado = new Label("Datos cargados: " + baseLicitaciones.size() + " licitaciones disponibles en muestra local.");
-        lblEstado.setPadding(new Insets(10, 15, 10, 15));
+        lblEstado = new Label("Datos cargados: " + baseLicitaciones.size()
+                + " licitaciones disponibles en muestra local (horizonte configurable desde "
+                + similitudService.getAnioMinimo() + ").");
+        lblEstado.setPadding(new Insets(6, 0, 0, 0));
+
+        VBox panelInferior = new VBox(6, lblDetalleTitulo, txtDetalle, lblEstado);
+        panelInferior.setPadding(new Insets(10, 15, 12, 15));
+        panelInferior.setStyle("-fx-background-color: #F9FAFB; -fx-border-color: #D0D7DE; -fx-border-width: 1 0 0 0;");
 
         // Evento de búsqueda
         btnBuscar.setOnAction(e -> ejecutarBusqueda(txtConsulta.getText(), cmbTipoContrato.getValue()));
@@ -68,9 +89,9 @@ public class MainApp extends Application {
         BorderPane root = new BorderPane();
         root.setTop(panelSuperior);
         root.setCenter(tablaResultados);
-        root.setBottom(lblEstado);
+        root.setBottom(panelInferior);
 
-        Scene scene = new Scene(root, 1150, 600);
+        Scene scene = new Scene(root, 1200, 680);
         stage.setTitle("UMivale · Comparador de Licitaciones (P1 - Sprint 1)");
         stage.setScene(scene);
         stage.show();
@@ -90,6 +111,7 @@ public class MainApp extends Application {
         if (consulta == null || consulta.trim().isEmpty()) {
             lblEstado.setText("Aviso: Introduce una descripción libre del servicio antes de buscar.");
             tablaResultados.setItems(FXCollections.observableArrayList());
+            txtDetalle.setText("Introduce una descripción libre del servicio para obtener resultados comparables.");
             return;
         }
 
@@ -98,9 +120,40 @@ public class MainApp extends Application {
 
         if (resultados.isEmpty()) {
             lblEstado.setText("No se encontraron licitaciones similares para '" + consulta + "' con tipo '" + tipoContrato + "'.");
+            txtDetalle.setText("Sin coincidencias relevantes para esta búsqueda.");
         } else {
-            lblEstado.setText("Mostrando " + resultados.size() + " licitaciones ordenadas por similitud (Tipo: " + tipoContrato + ").");
+            long relevantes = resultados.stream().filter(ResultadoBusqueda::isRelevante).count();
+            long menosParecidas = resultados.size() - relevantes;
+            lblEstado.setText("Encontradas " + resultados.size() + " licitaciones (" + relevantes
+                    + " relevantes, " + menosParecidas + " menos parecidas) · Tipo: " + tipoContrato + ".");
+            tablaResultados.getSelectionModel().selectFirst();
         }
+    }
+
+    private void mostrarDetalle(ResultadoBusqueda resultado) {
+        if (resultado == null) {
+            txtDetalle.setText("Selecciona una licitación en la tabla para ver por qué se considera comparable.");
+            return;
+        }
+        String detalle = String.format(
+                "Expediente: %s (%s) | Tipo: %s | Organismo: %s (%s)%n"
+                        + "Objeto: %s%n"
+                        + "CPV: %s | Importe: %s | Duración: %s | Fecha: %s%n"
+                        + "Similitud (%s): %s",
+                resultado.getExpediente(),
+                resultado.getLote(),
+                resultado.getTipoContrato(),
+                resultado.getOrganismo(),
+                resultado.getTipoOrganismo(),
+                resultado.getObjeto(),
+                resultado.getCpv(),
+                resultado.getImporteFormateado(),
+                resultado.getDuracionFormateada(),
+                resultado.getFechaPublicacion(),
+                resultado.getSimilitudFormateada(),
+                resultado.getExplicacion()
+        );
+        txtDetalle.setText(detalle);
     }
 
     private TableView<ResultadoBusqueda> construirTabla() {
@@ -109,41 +162,47 @@ public class MainApp extends Application {
 
         TableColumn<ResultadoBusqueda, String> colSim = new TableColumn<>("Similitud");
         colSim.setCellValueFactory(new PropertyValueFactory<>("similitudFormateada"));
-        colSim.setPrefWidth(85);
+        colSim.setPrefWidth(80);
+
+        TableColumn<ResultadoBusqueda, String> colRel = new TableColumn<>("Relevancia");
+        colRel.setCellValueFactory(new PropertyValueFactory<>("etiquetaRelevancia"));
+        colRel.setPrefWidth(105);
 
         TableColumn<ResultadoBusqueda, String> colObjeto = new TableColumn<>("Objeto del contrato");
         colObjeto.setCellValueFactory(new PropertyValueFactory<>("objeto"));
-        colObjeto.setPrefWidth(320);
+        colObjeto.setPrefWidth(310);
 
         TableColumn<ResultadoBusqueda, String> colLote = new TableColumn<>("Lote");
         colLote.setCellValueFactory(new PropertyValueFactory<>("lote"));
-        colLote.setPrefWidth(70);
+        colLote.setPrefWidth(65);
 
         TableColumn<ResultadoBusqueda, String> colTipo = new TableColumn<>("Tipo");
         colTipo.setCellValueFactory(new PropertyValueFactory<>("tipoContrato"));
-        colTipo.setPrefWidth(85);
+        colTipo.setPrefWidth(80);
 
         TableColumn<ResultadoBusqueda, String> colCpv = new TableColumn<>("CPV");
         colCpv.setCellValueFactory(new PropertyValueFactory<>("cpv"));
-        colCpv.setPrefWidth(85);
+        colCpv.setPrefWidth(80);
 
         TableColumn<ResultadoBusqueda, String> colOrg = new TableColumn<>("Organismo");
         colOrg.setCellValueFactory(new PropertyValueFactory<>("organismo"));
-        colOrg.setPrefWidth(190);
+        colOrg.setPrefWidth(185);
 
         TableColumn<ResultadoBusqueda, String> colImporte = new TableColumn<>("Importe");
         colImporte.setCellValueFactory(new PropertyValueFactory<>("importeFormateado"));
-        colImporte.setPrefWidth(100);
+        colImporte.setPrefWidth(115);
 
         TableColumn<ResultadoBusqueda, String> colDuracion = new TableColumn<>("Duración");
         colDuracion.setCellValueFactory(new PropertyValueFactory<>("duracionFormateada"));
-        colDuracion.setPrefWidth(90);
+        colDuracion.setPrefWidth(95);
 
         TableColumn<ResultadoBusqueda, String> colFecha = new TableColumn<>("Fecha");
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaPublicacion"));
-        colFecha.setPrefWidth(95);
+        colFecha.setPrefWidth(90);
 
-        tabla.getColumns().addAll(colSim, colObjeto, colLote, colTipo, colCpv, colOrg, colImporte, colDuracion, colFecha);
+        tabla.getColumns().addAll(List.of(
+                colSim, colRel, colObjeto, colLote, colTipo, colCpv, colOrg, colImporte, colDuracion, colFecha
+        ));
         return tabla;
     }
 
