@@ -1,5 +1,4 @@
-package main.java.com.umivale.licitaciones.ui;
-
+package com.umivale.licitaciones.ui;
 import com.umivale.licitaciones.model.Licitacion;
 import com.umivale.licitaciones.model.ResultadoBusqueda;
 import com.umivale.licitaciones.service.CsvLicitacionLoader;
