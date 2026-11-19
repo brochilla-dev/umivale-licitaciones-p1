@@ -92,4 +92,44 @@ class SimilitudServiceTest {
     void consultaVaciaDevuelveListaVacia() {
         assertTrue(service.buscarSimilares("   ", "Servicios", muestra).isEmpty());
     }
+    @Test
+void horizonteTemporalIncluyeDesde2024YExcluyeAniosAnteriores() {
+    Licitacion de2023 = new Licitacion(
+            "EXP-2023",
+            "Desarrollo de aplicaciones Java",
+            "Único",
+            "Servicios",
+            "72200000",
+            "Mutua Ejemplo",
+            "Mutua",
+            120000.0,
+            24,
+            "2023-12-31"
+    );
+
+    Licitacion de2024 = new Licitacion(
+            "EXP-2024",
+            "Desarrollo de aplicaciones Java",
+            "Único",
+            "Servicios",
+            "72200000",
+            "Mutua Ejemplo",
+            "Mutua",
+            120000.0,
+            24,
+            "2024-01-01"
+    );
+
+    List<ResultadoBusqueda> resultados = service.buscarSimilares(
+            "desarrollo aplicaciones java",
+            "Servicios",
+            List.of(de2023, de2024)
+    );
+
+    assertTrue(resultados.stream()
+            .anyMatch(r -> "EXP-2024".equals(r.getExpediente())));
+
+    assertFalse(resultados.stream()
+            .anyMatch(r -> "EXP-2023".equals(r.getExpediente())));
+}
 }
